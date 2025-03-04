@@ -26,7 +26,7 @@ export function ProductForm() {
     setTimeout(() => {
       setSuccessMessage('')
       setFields(initialForm)
-    }, 1000)
+    }, 3000)
   }
 
   return (
