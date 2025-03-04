@@ -12,16 +12,34 @@ const initialForm = {
 export function ProductForm() {
   const [fields, setFields] = useState(initialForm)
   const [successMessage, setSuccessMessage] = useState('')
+  const [errorMessage, setErrorMessage] = useState('')
 
   const handleChange = (field: keyof typeof fields, value: string) => {
     setFields((prev) => ({
       ...prev,
-      [field]: { ...prev[field], value },
+      [field]: { ...prev[field], value, error: '' }, 
     }))
   }
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
+
+    let hasError = false
+    const newFields = { ...fields }
+    for (const key in fields) {
+      if (fields[key as keyof typeof fields].value.trim() === '') {
+        newFields[key as keyof typeof fields].error = 'Este campo es obligatorio'
+        hasError = true
+      }
+    }
+
+    if (hasError) {
+      setFields(newFields)
+      setErrorMessage('Por favor, complete todos los campos.')
+      return
+    }
+
+    setErrorMessage('')
     setSuccessMessage('✅ PRODUCTO GUARDADO EXITOSAMENTE')
     setTimeout(() => {
       setSuccessMessage('')
@@ -31,7 +49,7 @@ export function ProductForm() {
 
   return (
     <div className="flex min-h-screen items-center justify-center">
-      <div className="w-full max-w-md rounded-lg border-2 border-orange-500 bg-white p-6 shadow-lg">
+      <div className="w-full max-w-1/2 rounded-lg border-2 border-orange-500 bg-white p-6 shadow-lg">
         <h2 className="text-center text-2xl font-bold text-gray-800">🛒 Stores</h2>
         <p className="mb-4 text-center text-gray-500">
           Página para agregar a los productos de las tiendas
@@ -39,6 +57,10 @@ export function ProductForm() {
 
         {successMessage && (
           <p className="mb-3 text-center font-bold text-green-600">{successMessage}</p>
+        )}
+
+        {errorMessage && (
+          <p className="mb-3 text-center font-bold text-red-600">{errorMessage}</p>
         )}
 
         <form onSubmit={handleSubmit} className="flex flex-col gap-3">
@@ -53,11 +75,14 @@ export function ProductForm() {
                 </label>
                 <input
                   id={key}
-                  className="w-2/3 rounded-md border border-gray-300 border-orange-500 bg-white p-1"
+                  className={`w-2/3 rounded-md border p-1 ${field.error ? 'border-red-500' : 'border-gray-300'}`}
                   type={key === 'price' || key === 'stock' ? 'number' : 'text'}
                   value={field.value}
                   onChange={(e) => handleChange(key as keyof typeof fields, e.target.value)}
                 />
+                {field.error && (
+                  <span className="text-sm text-red-500">{field.error}</span>
+                )}
               </div>
             )
           })}
