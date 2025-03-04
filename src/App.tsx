@@ -10,6 +10,7 @@ import { UserRole } from './admin/enums/user.enum'
 import { Dashboard } from './dashboard/pages/Dashboard'
 import { Users } from './admin/pages/Users'
 import { Products } from './store/pages/Products'
+import { ProductForm } from './store/components/ProductForm'
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
           </Route>
           <Route element={<ProtectedRoute allowedRoles={[UserRole.STORE]} />}>
             <Route path="/products" element={<Products />} />
+            <Route path="/products/add" element={<ProductForm />} />
           </Route>
           <Route path="*" element={<NotFound />} />
         </Route>

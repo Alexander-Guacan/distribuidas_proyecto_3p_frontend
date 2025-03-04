@@ -10,7 +10,6 @@ export function ProductTable() {
 
   useEffect(() => {
     if (!products) return
-
     setDashboardProducts(products)
     setFilteredProducts(products)
   }, [products])
