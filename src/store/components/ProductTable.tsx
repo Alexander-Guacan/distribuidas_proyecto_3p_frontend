@@ -1,7 +1,7 @@
 import { FaEdit, FaPlus, FaSpinner, FaTrash } from 'react-icons/fa'
 import { useProducts } from '../hooks/useProducts'
-import { Link } from 'react-router-dom'
 import { useEffect, useState } from 'react'
+import { Link } from 'react-router'
 
 export function ProductTable() {
   const { products, loading, error } = useProducts()

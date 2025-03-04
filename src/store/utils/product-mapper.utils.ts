@@ -8,6 +8,6 @@ export function mapFromProductDto(productDto: ProductDto): Product {
     name: productDto.Name,
     description: productDto.Description,
     price: productDto.Price,
-    stock: productDto.Stock
+    stock: productDto.Stock,
   }
 }
