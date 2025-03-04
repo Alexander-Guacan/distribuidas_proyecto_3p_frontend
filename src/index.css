@@ -8,3 +8,8 @@ html {
 body {
   font-family: sans-serif;
 }
+
+.custom-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-gray-300) transparent;
+}

@@ -1,7 +1,7 @@
 import { Link, useLocation } from 'react-router'
 import PageLoco from '../../assets/img/PageLogo.png'
 import { FiLogIn } from 'react-icons/fi'
-import { UserRole } from '../../auth/enums/auth.enum'
+import { UserRole } from '../../admin/enums/user.enum'
 import { MdLogout, MdOutlineLocalGroceryStore, MdOutlineStore } from 'react-icons/md'
 import { useAuth } from '../../auth/hooks/useAuth'
 import { AiOutlineDashboard } from 'react-icons/ai'
@@ -21,9 +21,9 @@ const links = {
       text: 'Dashboard',
     },
     {
-      href: '/stores',
+      href: '/users',
       icon: MdOutlineStore,
-      text: 'Stores',
+      text: 'Users',
     },
   ],
   [UserRole.STORE]: [
@@ -70,7 +70,7 @@ export function SideNav() {
           {authUser && (
             <li>
               <button
-                className="flex place-items-center gap-3 place-self-stretch rounded-md p-2 hover:cursor-pointer hover:bg-gray-200"
+                className="flex place-items-center gap-3 place-self-stretch rounded-md p-2 hover:cursor-pointer hover:bg-gray-200 hover:text-red-600"
                 type="button"
                 onClick={logout}
               >

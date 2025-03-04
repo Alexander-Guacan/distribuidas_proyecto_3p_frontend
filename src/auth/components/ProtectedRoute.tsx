@@ -1,5 +1,5 @@
 import { Navigate, Outlet } from 'react-router'
-import { UserRole } from '../enums/auth.enum'
+import { UserRole } from '../../admin/enums/user.enum'
 import { useAuth } from '../hooks/useAuth'
 import { Unauthorized } from '../../shared/pages/Unauthorized'
 

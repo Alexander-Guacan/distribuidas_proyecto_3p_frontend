@@ -6,9 +6,9 @@ import { Layout } from './shared/layouts/Layout'
 import { Home } from './home/pages/Home'
 import { AuthProvider } from './auth/components/AuthProvider'
 import { ProtectedRoute } from './auth/components/ProtectedRoute'
-import { UserRole } from './auth/enums/auth.enum'
+import { UserRole } from './admin/enums/user.enum'
 import { Dashboard } from './dashboard/pages/Dashboard'
-import { Stores } from './admin/pages/Stores'
+import { Users } from './admin/pages/Users'
 import { Products } from './store/pages/Products'
 
 function App() {
@@ -22,7 +22,7 @@ function App() {
             <Route path="/dashboard" element={<Dashboard />} />
           </Route>
           <Route element={<ProtectedRoute allowedRoles={[UserRole.ADMIN]} />}>
-            <Route path="/stores" element={<Stores />} />
+            <Route path="/users" element={<Users />} />
           </Route>
           <Route element={<ProtectedRoute allowedRoles={[UserRole.STORE]} />}>
             <Route path="/products" element={<Products />} />

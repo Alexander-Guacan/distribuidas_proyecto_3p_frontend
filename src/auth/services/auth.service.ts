@@ -1,4 +1,4 @@
-import { UserRole } from '../enums/auth.enum'
+import { UserRole } from '../../admin/enums/user.enum'
 import { AuthUser } from '../types/auth'
 
 export async function login(
