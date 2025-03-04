@@ -52,7 +52,7 @@ export function LoginForm() {
   }, [submitting, fields, login])
 
   return (
-    <form className="mx-auto flex w-fit flex-col gap-4" onSubmit={handleSubmit} noValidate>
+    <form className="mx-auto flex w-fit flex-col gap-4 rounded-lg border-2 border-orange-500 p-10" onSubmit={handleSubmit} noValidate>
       <h4 className="text-center text-xl font-semibold">Login</h4>
       {error && <p className="text-center text-sm text-red-600">{error}</p>}
       <div className="flex flex-col gap-2">
