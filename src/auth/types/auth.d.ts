@@ -6,3 +6,7 @@ export interface AuthUser {
   email: string
   role: UserRole
 }
+
+export type AuthToken = string
+
+export type AuthUserStorage = Pick<AuthUser, 'id' | 'name' | 'role'>

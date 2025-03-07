@@ -1,17 +1,56 @@
-import { UserRole } from '../../admin/enums/user.enum'
-import { AuthUser } from '../types/auth'
+import { AxiosError } from 'axios'
+import { authApi, usersApi } from '../../shared/config/fetcher'
+import { AuthToken, AuthUser } from '../types/auth'
+import { isAuthTokenDto, isAuthUserDto, mapFromAuthUserDto } from '../utils/auth-dto.util'
+
+export async function getToken(email: string, password: string): Promise<AuthToken | undefined> {
+  try {
+    const response = await authApi.post('/login', {
+      email,
+      password,
+    })
+
+    const authToken = response.data as unknown
+
+    if (!isAuthTokenDto(authToken)) throw new Error('Email or password incorrect')
+
+    return authToken.token
+  } catch (error) {
+    if (error instanceof Error) {
+      const UNAUTHORIZED = 401
+      if (error.message.includes(UNAUTHORIZED.toString()))
+        throw new Error('Email or password incorrect')
+      throw error
+    }
+
+    if (error instanceof AxiosError) throw new Error(error.message)
+  }
+}
 
 export async function login(
   email: string,
   password: string,
-): Promise<AuthUser | undefined> | never {
-  return await new Promise((resolve) =>
-    setTimeout(() => {
-      if (email === 'admin@gmail.com' && password === 'admin123')
-        resolve({ email, id: 0, name: 'Admin', role: UserRole.ADMIN })
-      else if (email === 'store@gmail.com' && password === 'store123')
-        resolve({ email, id: 0, name: 'Store', role: UserRole.STORE })
-      else resolve(undefined)
-    }, 2000),
-  )
+  token: string,
+): Promise<AuthUser | undefined> {
+  try {
+    const response = await usersApi.post(
+      '/auth/login',
+      { email, password },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      },
+    )
+
+    const authUser = response.data as unknown
+
+    if (!isAuthUserDto(authUser)) throw new Error('Invalid token')
+
+    return mapFromAuthUserDto(authUser)
+  } catch (error) {
+    if (error instanceof Error) throw error
+
+    if (error instanceof AxiosError) throw new Error(error.message)
+  }
 }

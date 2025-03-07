@@ -52,7 +52,11 @@ export function LoginForm() {
   }, [submitting, fields, login])
 
   return (
-    <form className="mx-auto flex w-fit flex-col gap-4 rounded-lg border-2 border-orange-500 p-10" onSubmit={handleSubmit} noValidate>
+    <form
+      className="mx-auto flex w-fit flex-col gap-4 rounded-lg border-2 border-orange-500 p-10"
+      onSubmit={handleSubmit}
+      noValidate
+    >
       <h4 className="text-center text-xl font-semibold">Login</h4>
       {error && <p className="text-center text-sm text-red-600">{error}</p>}
       <div className="flex flex-col gap-2">
@@ -68,6 +72,7 @@ export function LoginForm() {
             value={fields.email.value}
             onChange={(e) => handleChange('email', e.target.value)}
             disabled={submitting}
+            autoComplete="email"
           />
           {fields.email.error && <p className="text-sm text-red-600">{fields.email.error}</p>}
         </div>
@@ -87,7 +92,7 @@ export function LoginForm() {
           {fields.password.error && <p className="text-sm text-red-600">{fields.password.error}</p>}
         </div>
         <button
-          className="rounded-md bg-orange-600 p-1 text-center text-gray-100 hover:cursor-pointer hover:bg-orange-500"
+          className="rounded-md bg-orange-600 p-2 text-center text-gray-100 hover:cursor-pointer hover:bg-orange-500"
           type="submit"
         >
           {submitting ? <FaSpinner className="inline animate-spin" /> : 'Continue'}
