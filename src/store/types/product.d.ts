@@ -6,3 +6,7 @@ export interface Product {
   price: number
   stock: number
 }
+
+export type PostProduct = Omit<Product, 'id'>
+
+export type PutProduct = Omit<Product, 'id'>

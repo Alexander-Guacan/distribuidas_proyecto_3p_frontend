@@ -1,8 +1,12 @@
 export interface ProductDto {
-  Id: number
-  Sku: string
-  Name: string
-  Description: string
-  Price: number
-  Stock: number
+  id: number
+  sku: string
+  name: string
+  description: string
+  price: number
+  stock: number
 }
+
+export type PostProductDto = Omit<ProductDto, 'id'>
+
+export type PutProductDto = Omit<ProductDto, 'id'>
