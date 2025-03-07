@@ -7,10 +7,11 @@ import { Home } from './home/pages/Home'
 import { AuthProvider } from './auth/components/AuthProvider'
 import { ProtectedRoute } from './auth/components/ProtectedRoute'
 import { UserRole } from './admin/enums/user.enum'
-import { Dashboard } from './dashboard/pages/Dashboard'
+import { Dashboard } from './home/pages/Dashboard'
 import { Users } from './admin/pages/Users'
 import { Products } from './store/pages/Products'
 import { ProductForm } from './store/components/ProductForm'
+import { AddUser } from './admin/pages/AddUser'
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
           </Route>
           <Route element={<ProtectedRoute allowedRoles={[UserRole.ADMIN]} />}>
             <Route path="/users" element={<Users />} />
+            <Route path="/users/add" element={<AddUser />} />
           </Route>
           <Route element={<ProtectedRoute allowedRoles={[UserRole.STORE]} />}>
             <Route path="/products" element={<Products />} />

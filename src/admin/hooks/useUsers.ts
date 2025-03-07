@@ -10,7 +10,7 @@ export function useUsers() {
   useEffect(() => {
     setLoading(true)
     getUsers()
-      .then((users) => setUsers(users))
+      .then((users) => users && setUsers(users))
       .catch((error) => {
         if (error instanceof Error) return setError(error.message)
 

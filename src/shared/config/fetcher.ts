@@ -1,24 +1,21 @@
 import axios from 'axios'
 
-// Configuración para Auth
 export const authApi = axios.create({
-  baseURL: 'http://localhost:8003/auth', // URL del microservicio de Auth
+  baseURL: (import.meta.env.VITE_AUTH_API as string | undefined) ?? 'http://localhost:8003/auth',
   headers: {
     'Content-Type': 'application/json',
   },
 })
 
-// Configuración para Users
 export const usersApi = axios.create({
-  baseURL: 'http://localhost:8001/api', // URL del microservicio de Users
+  baseURL: (import.meta.env.VITE_USERS_API as string | undefined) ?? 'http://localhost:8001/api',
   headers: {
     'Content-Type': 'application/json',
   },
 })
 
-// Configuración para Products
 export const productsApi = axios.create({
-  baseURL: 'http://localhost:8002/api', // URL del microservicio de Products
+  baseURL: (import.meta.env.VITE_PRODUCTS_API as string | undefined) ?? 'http://localhost:8002/api',
   headers: {
     'Content-Type': 'application/json',
   },

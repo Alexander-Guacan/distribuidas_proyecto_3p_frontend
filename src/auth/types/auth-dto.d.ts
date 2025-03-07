@@ -7,13 +7,13 @@ export interface AuthUserDto {
   name: string
   password: string
   email: string
-  role: RoleDto
+  role: AuthRoleDto
   status: boolean
   failed_attempts: number
   lock_time: null
 }
 
-export interface RoleDto {
+export interface AuthRoleDto {
   id: number
   name: string
 }

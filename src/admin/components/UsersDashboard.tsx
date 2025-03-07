@@ -4,10 +4,14 @@ import { getTextFromUserRole, isUserRole } from '../utils/user.util'
 import { Link } from 'react-router'
 import { useEffect, useState } from 'react'
 import { UserRole } from '../enums/user.enum'
+import { User } from '../types/user'
+import { EditUserModal } from './EditUserModal'
+import { deleteUser as deleteUserService } from '../services/user.service'
 
 export function UsersDashboard() {
   const { users, loading, error } = useUsers()
   const [dashboardUsers, setDashboardUsers] = useState(users)
+  const [editingUser, setEditingUser] = useState<User | null>(null)
   const [filteredUsers, setFilteredUsers] = useState(dashboardUsers)
 
   useEffect(() => {
@@ -34,9 +38,32 @@ export function UsersDashboard() {
     }
   }
 
-  const deleteUser = (userIdDeletting: number) => {
-    setDashboardUsers((users) => users?.filter((user) => user.id !== userIdDeletting) ?? null)
-    setFilteredUsers((users) => users?.filter((user) => user.id !== userIdDeletting) ?? null)
+  const deleteUser = (userIdDeleting: number) => {
+    deleteUserService(userIdDeleting)
+      .then((deleted) => {
+        if (deleted) {
+          setDashboardUsers((users) => users?.filter((user) => user.id !== userIdDeleting) ?? null)
+          setFilteredUsers((users) => users?.filter((user) => user.id !== userIdDeleting) ?? null)
+        }
+      })
+      .catch(() => {})
+  }
+
+  const openEditModal = (user: User) => {
+    setEditingUser(user)
+  }
+
+  const closeEditModal = () => {
+    setEditingUser(null)
+  }
+
+  const handleEditSave = (updatedUser: User | undefined) => {
+    if (updatedUser)
+      setFilteredUsers(
+        (users) => users?.map((user) => (user.id === updatedUser.id ? updatedUser : user)) ?? null,
+      )
+
+    closeEditModal()
   }
 
   return (
@@ -48,7 +75,7 @@ export function UsersDashboard() {
         </div>
         <div>
           <Link
-            to={'/products'}
+            to={'/users/add'}
             className="flex items-center gap-2 rounded-md bg-orange-600 p-2 text-xs text-gray-100 hover:cursor-pointer hover:bg-orange-500"
             type="button"
           >
@@ -109,7 +136,11 @@ export function UsersDashboard() {
                   </td>
                   <td className="rounded-r-md border-t border-r border-b border-gray-300 p-2 px-5">
                     <div className="flex justify-center gap-4">
-                      <button className="text-amber-500 hover:cursor-pointer" type="button">
+                      <button
+                        className="text-amber-500 hover:cursor-pointer"
+                        type="button"
+                        onClick={() => openEditModal(user)}
+                      >
                         <FaEdit />
                       </button>
                       <button
@@ -127,6 +158,10 @@ export function UsersDashboard() {
           </tbody>
         </table>
       </div>
+
+      {editingUser && (
+        <EditUserModal user={editingUser} onClose={closeEditModal} onSave={handleEditSave} />
+      )}
     </section>
   )
 }

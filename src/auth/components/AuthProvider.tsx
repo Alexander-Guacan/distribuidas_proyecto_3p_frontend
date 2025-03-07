@@ -60,11 +60,11 @@ export function AuthProvider({ children }: AuthProviderProps) {
     }
   }, [authUser, token])
 
-  const logout = () => {
+  const logout = useCallback(() => {
     setToken(null)
     setAuthUser(null)
     void navigate('/login', { replace: true })
-  }
+  }, [navigate])
 
   const login = useCallback(
     async (email: string, password: string) => {
@@ -78,7 +78,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
         if (!authUser) return setError('Email or password incorrect')
 
-        console.log('token', token)
         setToken(token)
         setAuthUser(authUser)
         void navigate('/dashboard')
@@ -97,7 +96,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
       logout,
       login,
     }),
-    [authUser, error, token, login],
+    [authUser, error, token, login, logout],
   )
 
   return <AuthContext value={contextValue}>{children}</AuthContext>
